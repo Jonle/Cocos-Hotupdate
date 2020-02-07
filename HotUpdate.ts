@@ -134,6 +134,10 @@ export default class HotUpdate extends cc.Component {
      * 检测线上与服务器的资源版本
      */
     checkUpdate() {
+        if (!cc.sys.isNative) {
+            cc.Component.EventHandler.emitEvents(this.checkHandlers, this.state);
+            return;
+        }
         if (this._updating) {
             cc.log('Checking or updating ...');
             return;
@@ -159,6 +163,10 @@ export default class HotUpdate extends cc.Component {
      * 将服务器资源更新到本地
      */
     hotUpdate() {
+        if (!cc.sys.isNative) {
+            cc.Component.EventHandler.emitEvents(this.updateHandlers, this.state);
+            return;
+        }
         if (this._am && !this._updating) {
             this._am.setEventCallback(this.hotUpdateCallback.bind(this));
 
@@ -181,6 +189,9 @@ export default class HotUpdate extends cc.Component {
      * 重新下载失败资源
      */
     retry() {
+        if (!cc.sys.isNative) {
+            return;
+        }
         if (!this._updating && this._canRetry) {
             this._canRetry = false;
             // 'Retry failed Assets...';
@@ -238,7 +249,9 @@ export default class HotUpdate extends cc.Component {
                 failed = true;
                 break;
             case jsb.EventAssetsManager.UPDATE_PROGRESSION:
+
                 this.state = State.UPDATE_PROGRESSION;
+
                 this._totalFilesCount = event.getTotalFiles();
                 this._totalBytesCount = event.getTotalBytes();
 
@@ -327,6 +340,9 @@ export default class HotUpdate extends cc.Component {
     }
 
     onDestroy() {
-        this._am.setEventCallback(null);
+        if(cc.sys.isNative) {
+            this._am.setEventCallback(null);
+        }
+        
     }
 }
