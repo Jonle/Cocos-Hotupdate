@@ -238,7 +238,7 @@ export default class HotUpdate extends cc.Component {
                 failed = true;
                 break;
             case jsb.EventAssetsManager.UPDATE_PROGRESSION:
-
+                this.state = State.UPDATE_PROGRESSION;
                 this._totalFilesCount = event.getTotalFiles();
                 this._totalBytesCount = event.getTotalBytes();
 
