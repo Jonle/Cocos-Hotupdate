@@ -130,6 +130,9 @@ export default class HotUpdate extends cc.Component {
         }
     }
 
+    /**
+     * 检测线上与服务器的资源版本
+     */
     checkUpdate() {
         if (this._updating) {
             cc.log('Checking or updating ...');
@@ -152,9 +155,9 @@ export default class HotUpdate extends cc.Component {
         this._am.checkUpdate();
         this._updating = true;
     }
-
-
-
+    /**
+     * 将服务器资源更新到本地
+     */
     hotUpdate() {
         if (this._am && !this._updating) {
             this._am.setEventCallback(this.hotUpdateCallback.bind(this));
@@ -174,6 +177,9 @@ export default class HotUpdate extends cc.Component {
         }
     }
 
+    /**
+     * 重新下载失败资源
+     */
     retry() {
         if (!this._updating && this._canRetry) {
             this._canRetry = false;
