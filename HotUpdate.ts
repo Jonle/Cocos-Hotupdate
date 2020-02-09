@@ -63,7 +63,7 @@ export default class HotUpdate extends cc.Component {
 
 
     // use this for initialization
-    onLoad() {
+    init() {
         // Hot update is only available in Native build
         if (!cc.sys.isNative) {
             return;
@@ -340,7 +340,7 @@ export default class HotUpdate extends cc.Component {
     }
 
     onDestroy() {
-        if(cc.sys.isNative) {
+        if(cc.sys.isNative && this._am) {
             this._am.setEventCallback(null);
         }
         
